@@ -3,6 +3,7 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "Icosphere.h"
 
 #define MAX_SNAKE 2
 
@@ -41,4 +42,7 @@ public:
 
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
+
+	Icosphere* inner_icosphere;
+	Icosphere* outer_icosphere;
 };
