@@ -100,10 +100,10 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 	}
 	else {
-		Position = vec3(0, 21, 0);
+		
 		mat4x4 trans;
 		App->player->vehicle->GetTransform(trans.M);
-		LookAt(vec3(1, -1, 1));
+		Position = vec3(trans.M[12], trans.M[13]+4, trans.M[14]);
 	}
 	// Recalculate matrix -------------
 	CalculateViewMatrix();

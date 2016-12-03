@@ -161,13 +161,13 @@ void Icosphere::SetPos(float x, float y, float z)
 
 void Icosphere::InnerDraw()
 {
-	glLineWidth(1.5);
+	glLineWidth(5.0f);
 	glColor3f(1.0, 0.0, 0.0);
 	for (p2List_item<Triangle3D*>* item = triangles.getFirst(); item; item = item->next) {
 		glBegin(GL_LINE_LOOP);
-		glVertex3f(item->data->A.x, item->data->A.y, item->data->A.z);
-		glVertex3f(item->data->B.x, item->data->B.y, item->data->B.z);
-		glVertex3f(item->data->C.x, item->data->C.y, item->data->C.z);
+		glVertex3f(item->data->A.x, item->data->A.y+21, item->data->A.z);
+		glVertex3f(item->data->B.x, item->data->B.y+21, item->data->B.z);
+		glVertex3f(item->data->C.x, item->data->C.y+21, item->data->C.z);
 		glEnd();
 	}
 }

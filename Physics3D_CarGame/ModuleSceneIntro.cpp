@@ -45,7 +45,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-	//inner_icosphere->InnerDraw();
+	inner_icosphere->InnerDraw();
 	//outer_icosphere->InnerDraw();
 
 	return UPDATE_CONTINUE;
