@@ -4,7 +4,7 @@
 #include "glmath.h"
 #include "p2List.h"
 
-#define DEFAULT_RECURSION 2
+#define DEFAULT_RECURSION 3
 
 // Each triangle have 3 points. Usually in mathematics they are named A, B and C.
 // I will use this nomenclature too.
@@ -26,6 +26,7 @@ public:
 class Icosphere {
 public:
 	p2List<Triangle3D*> triangles;
+	mat4x4 transform;
 
 public:
 	// Constructor

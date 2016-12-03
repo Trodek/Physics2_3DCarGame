@@ -45,4 +45,5 @@ public:
 
 	Icosphere* inner_icosphere;
 	Icosphere* outer_icosphere;
+	p2List<PhysBody3D*> icocapsule_bodies;
 };

@@ -23,11 +23,11 @@ Triangle3D::~Triangle3D()
 
 // -------------- ICOSPHERE ----------------
 
-Icosphere::Icosphere()
+Icosphere::Icosphere(): transform(IdentityMatrix)
 {
 }
 
-Icosphere::Icosphere(float size)
+Icosphere::Icosphere(float size): transform(IdentityMatrix)
 {
 	CreateIcosphere(size, DEFAULT_RECURSION);
 }
@@ -155,6 +155,8 @@ void Icosphere::SetPos(float x, float y, float z)
 		item->data->C.z += z;
 
 	}
+
+	transform.translate(x, y, z);
 }
 
 void Icosphere::InnerDraw()

@@ -332,6 +332,40 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	return pvehicle;
 }
 
+void ModulePhysics3D::AddIcocapsule(Icosphere & inner, Icosphere & outer, p2List<PhysBody3D*>& list)
+{
+	for (int i = 0; i < inner.triangles.count(); i++) {
+		btConvexHullShape shape;
+		shape.addPoint(btVector3(inner.triangles[i]->A.x, inner.triangles[i]->A.y, inner.triangles[i]->A.z));
+		shape.addPoint(btVector3(inner.triangles[i]->B.x, inner.triangles[i]->B.y, inner.triangles[i]->B.z));
+		shape.addPoint(btVector3(inner.triangles[i]->C.x, inner.triangles[i]->C.y, inner.triangles[i]->C.z));
+
+		shape.addPoint(btVector3(outer.triangles[i]->A.x, outer.triangles[i]->A.y, outer.triangles[i]->A.z));
+		shape.addPoint(btVector3(outer.triangles[i]->B.x, outer.triangles[i]->B.y, outer.triangles[i]->B.z));
+		shape.addPoint(btVector3(outer.triangles[i]->C.x, outer.triangles[i]->C.y, outer.triangles[i]->C.z));
+
+		btCollisionShape* colShape = new btConvexHullShape(shape);
+		shapes.add(colShape);
+
+		btTransform startTransform;
+		startTransform.setFromOpenGLMatrix(&inner.transform);
+
+		btVector3 localInertia(0, 0, 0);
+
+		btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+		motions.add(myMotionState);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape, localInertia);
+
+		btRigidBody* body = new btRigidBody(rbInfo);
+		PhysBody3D* pbody = new PhysBody3D(body);
+
+		body->setUserPointer(pbody);
+		world->addRigidBody(body);
+		bodies.add(pbody);
+		list.add(pbody);
+	}
+}
+
 // ---------------------------------------------------------
 void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB)
 {

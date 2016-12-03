@@ -20,10 +20,12 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	inner_icosphere = new Icosphere(30);
-	inner_icosphere->SetPos(0, 25, 0);
-	outer_icosphere = new Icosphere(30.5f);
-	outer_icosphere->SetPos(0, 25, 0);
+	inner_icosphere = new Icosphere(40);
+	inner_icosphere->SetPos(0, 21, 0);
+	outer_icosphere = new Icosphere(40.5f);
+	outer_icosphere->SetPos(0, 21, 0);
+
+	App->physics->AddIcocapsule(*inner_icosphere, *outer_icosphere, icocapsule_bodies);
 
 	return ret;
 }
@@ -43,8 +45,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-	inner_icosphere->InnerDraw();
-	outer_icosphere->InnerDraw();
+	//inner_icosphere->InnerDraw();
+	//outer_icosphere->InnerDraw();
 
 	return UPDATE_CONTINUE;
 }
