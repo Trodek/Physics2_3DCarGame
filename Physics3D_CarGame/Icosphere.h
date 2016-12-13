@@ -11,6 +11,7 @@
 class Triangle3D { 
 public:
 	vec3 A, B, C;
+	float r = 1.0f, g = 0.0f, b = 0.0f;
 
 public:
 	// Constructors

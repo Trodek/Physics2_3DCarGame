@@ -27,7 +27,7 @@ void PhysVehicle3D::Render()
 
 	wheel.color = Blue;
 
-	for(int i = 0; i < vehicle->getNumWheels(); ++i)
+	for(int i = 1; i < vehicle->getNumWheels(); i+=2)
 	{
 		wheel.radius = info.wheels[0].radius;
 		wheel.height = info.wheels[0].width;

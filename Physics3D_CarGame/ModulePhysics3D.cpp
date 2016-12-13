@@ -4,6 +4,7 @@
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
+#include "Icosphere.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -358,6 +359,8 @@ void ModulePhysics3D::AddIcocapsule(Icosphere & inner, Icosphere & outer, p2List
 
 		btRigidBody* body = new btRigidBody(rbInfo);
 		PhysBody3D* pbody = new PhysBody3D(body);
+		pbody->triangle = inner.triangles[i];
+		pbody->collision_listeners.add(App->scene_intro);
 
 		body->setUserPointer(pbody);
 		world->addRigidBody(body);

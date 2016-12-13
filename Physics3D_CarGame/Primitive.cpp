@@ -195,7 +195,7 @@ void Cylinder::InnerRender() const
 	for(int i = 360; i >= 0; i -= (360 / n))
 	{
 		float a = i * M_PI / 180; // degrees to radians
-		glVertex3f(-height*0.5f, radius * cos(a), radius * sin(a));
+		glVertex3f(height*0.5f, radius * cos(a), radius * sin(a));
 	}
 	glEnd();
 
@@ -205,7 +205,7 @@ void Cylinder::InnerRender() const
 	for(int i = 0; i <= 360; i += (360 / n))
 	{
 		float a = i * M_PI / 180; // degrees to radians
-		glVertex3f(height * 0.5f, radius * cos(a), radius * sin(a));
+		glVertex3f(-height * 0.5f, radius * cos(a), radius * sin(a));
 	}
 	glEnd();
 
@@ -215,8 +215,8 @@ void Cylinder::InnerRender() const
 	{
 		float a = i * M_PI / 180; // degrees to radians
 
-		glVertex3f(height*0.5f,  radius * cos(a), radius * sin(a) );
-		glVertex3f(-height*0.5f, radius * cos(a), radius * sin(a) );
+		glVertex3f(-height*0.5f,  radius * cos(a), radius * sin(a) );
+		glVertex3f(height*0.5f, radius * cos(a), radius * sin(a) );
 	}
 	glEnd();
 }

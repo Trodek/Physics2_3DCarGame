@@ -25,7 +25,7 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
-
+	attach = true;
 	return ret;
 }
 
@@ -103,7 +103,9 @@ update_status ModuleCamera3D::Update(float dt)
 		
 		mat4x4 trans;
 		App->player->vehicle->GetTransform(trans.M);
-		Position = vec3(trans.M[12], trans.M[13]+4, trans.M[14]);
+		Position = vec3(1, 21, 0);
+		LookAt(vec3( trans.M[12], trans.M[13], trans.M[14]));
+		
 	}
 	// Recalculate matrix -------------
 	CalculateViewMatrix();

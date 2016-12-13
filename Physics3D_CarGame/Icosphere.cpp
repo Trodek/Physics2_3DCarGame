@@ -161,16 +161,25 @@ void Icosphere::SetPos(float x, float y, float z)
 
 void Icosphere::InnerDraw()
 {
-	glLineWidth(5.0f);
-	glColor3f(1.0, 0.0, 0.0);
+	glLineWidth(6.0f);
 	for (p2List_item<Triangle3D*>* item = triangles.getFirst(); item; item = item->next) {
-		glBegin(GL_LINE_LOOP);
+		glColor3f(item->data->r, item->data->g, item->data->b);
+		glBegin(GL_TRIANGLES);
+		glVertex3f(item->data->C.x, item->data->C.y + 21, item->data->C.z);
+		glVertex3f(item->data->B.x, item->data->B.y + 21, item->data->B.z);
 		glVertex3f(item->data->A.x, item->data->A.y+21, item->data->A.z);
-		glVertex3f(item->data->B.x, item->data->B.y+21, item->data->B.z);
-		glVertex3f(item->data->C.x, item->data->C.y+21, item->data->C.z);
+		glEnd();
+		
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(item->data->A.x, item->data->A.y + 21, item->data->A.z);
+		glVertex3f(item->data->B.x, item->data->B.y + 21, item->data->B.z);
+		glVertex3f(item->data->C.x, item->data->C.y + 21, item->data->C.z);
 		glEnd();
 	}
+	glLineWidth(1.0f);
 }
+
 
 // Add a vertex to a unit sphere
 void Icosphere::AddVertex(vec3& point)

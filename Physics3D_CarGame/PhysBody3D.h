@@ -5,6 +5,7 @@
 
 class btRigidBody;
 class Module;
+class Triangle3D;
 
 // =================================================
 struct PhysBody3D
@@ -24,6 +25,7 @@ private:
 
 public:
 	p2List<Module*> collision_listeners;
+	Triangle3D* triangle = nullptr;
 };
 
 #endif // __PhysBody3D_H__

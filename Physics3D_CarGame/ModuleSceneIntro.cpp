@@ -46,12 +46,15 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.Render();
 
 	inner_icosphere->InnerDraw();
-	//outer_icosphere->InnerDraw();
 
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+	if (body1->triangle != nullptr){
+		body1->triangle->r = 0.0f;
+		body1->triangle->g = 1.0f;
+	}
 }
 

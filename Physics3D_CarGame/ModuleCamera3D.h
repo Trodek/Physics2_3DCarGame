@@ -25,9 +25,10 @@ private:
 public:
 	
 	vec3 X, Y, Z, Position, Reference;
-	bool attach = false;
+	
 
 private:
 
+	bool attach = true;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 };
