@@ -3,6 +3,8 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include "ModulePlayer.h"
+#include "PhysVehicle3D.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -27,6 +29,10 @@ bool ModuleSceneIntro::Start()
 
 	App->physics->AddIcocapsule(*inner_icosphere, *outer_icosphere, icocapsule_bodies);
 
+	total_triangles = inner_icosphere->triangles.count();
+
+
+	timer.Start();
 	return ret;
 }
 
@@ -47,12 +53,18 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	inner_icosphere->InnerDraw();
 
+	char title[80];
+	sprintf_s(title, "Velocity: %.1f Km/h, Score: %d/%d, Time: %d", App->player->vehicle->GetKmh(), painted_triangles, total_triangles, timer.Read());
+	App->window->SetTitle(title);
+
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	if (body1->triangle != nullptr){
+		if(body1->triangle->r == 1.0f)
+			painted_triangles++;
 		body1->triangle->r = 0.0f;
 		body1->triangle->g = 1.0f;
 	}

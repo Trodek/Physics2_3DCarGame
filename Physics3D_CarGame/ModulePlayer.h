@@ -26,4 +26,6 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
+
+	Cube sensore_cube;
 };

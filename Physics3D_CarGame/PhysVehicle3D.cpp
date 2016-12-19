@@ -34,6 +34,11 @@ void PhysVehicle3D::Render()
 
 		vehicle->updateWheelTransform(i);
 		vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
+		vec4 displacement(-1, 0, 0, 0);
+		displacement = wheel.transform*displacement;
+		wheel.transform.M[12] += displacement.x;
+		wheel.transform.M[13] += displacement.y;
+		wheel.transform.M[14] += displacement.z;
 
 		wheel.Render();
 	}
@@ -47,7 +52,6 @@ void PhysVehicle3D::Render()
 	chassis.transform.M[12] += offset.getX();
 	chassis.transform.M[13] += offset.getY();
 	chassis.transform.M[14] += offset.getZ();
-
 
 	chassis.Render();
 }

@@ -23,6 +23,7 @@ bool ModulePlayer::Start()
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
+	car.sensor_offset.Set(0, -.6, 0);
 	car.mass = 500.0f;
 	car.suspensionStiffness = 55.88f;
 	car.suspensionCompression = 0.83f;
@@ -36,7 +37,7 @@ bool ModulePlayer::Start()
 	float wheel_radius = 0.6f;
 	float wheel_width = 0.5f;
 	float suspensionRestLength = 1.2f;
-
+	
 	// Don't change anything below this line ------------------
 
 	float half_width = car.chassis_size.x*0.5f;
@@ -96,10 +97,18 @@ bool ModulePlayer::Start()
 	car.wheels[3].brake = true;
 	car.wheels[3].steering = false;
 
+// Sensor Creation
+	sensore_cube.Scale(.5, .8, .5);
+	mat4x4 trans;
+	car.sensor = App->physics->AddBody(sensore_cube);
+	car.sensor->SetAsSensor(true);
+
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 5, 0);
 	vehicle->collision_listeners.add(this);
 	
+	
+
 	return true;
 }
 
@@ -136,7 +145,6 @@ update_status ModulePlayer::Update(float dt)
 		if(turn > -TURN_DEGREES)
 			turn -= TURN_DEGREES;
 	}
-
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 		brake = BRAKE_POWER;
@@ -148,9 +156,11 @@ update_status ModulePlayer::Update(float dt)
 
 	vehicle->Render();
 
-	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
-	App->window->SetTitle(title);
+	mat4x4 trans;
+	vec4 offset(0, -.8, 0, 0);
+	vehicle->GetTransform(trans.M);
+	offset = trans*offset;
+	vehicle->info.sensor->SetPos(trans.M[12]+offset.x, trans.M[13]+offset.y, trans.M[14]+offset.z);
 
 	return UPDATE_CONTINUE;
 }

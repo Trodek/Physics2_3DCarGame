@@ -23,14 +23,6 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
-	/*
-	PhysBody3D* pb_snake[MAX_SNAKE];
-	Sphere s_snake[MAX_SNAKE];
-
-	PhysBody3D* pb_snake2[MAX_SNAKE];
-	Sphere s_snake2[MAX_SNAKE];
-	*/
-
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
 
@@ -46,4 +38,9 @@ public:
 	Icosphere* inner_icosphere;
 	Icosphere* outer_icosphere;
 	p2List<PhysBody3D*> icocapsule_bodies;
+
+	int total_triangles;
+	int painted_triangles = 0;
+
+	Timer timer;
 };
