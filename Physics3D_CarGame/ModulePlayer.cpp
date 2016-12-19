@@ -20,9 +20,22 @@ bool ModulePlayer::Start()
 
 	VehicleInfo car;
 
+	float total_length = 5.0f;
+
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2, 2, 4);
-	car.chassis_offset.Set(0, 1.5, 0);
+	car.chassis_size.Set(1.5, 1.5, 1.5);
+	car.chassis_offset.Set(0, 1, -2);
+	car.saddle_size.Set(1.75, .5, 2);
+	car.saddle_offset.Set(0, 2, -1.85);
+	car.downchassis_size.Set(1.5, .1, 3);
+	car.downchassis_offset.Set(0, .3, -.3);
+	car.frontwheelsupport_size.Set(1.5, 1, .5);
+	car.frontwheelsupport_offset.Set(0, 0.75, 1);
+	car.mudguard_size.Set(.6, .2, .8);
+	car.mudguard_offset.Set(0, 0.5, 1.8);
+	car.handelbarsupport_size.Set(1.5, .5, .6);
+	car.handelbarsupport_offset.Set(0, 1.1, 1.55);
+
 	car.sensor_offset.Set(0, -.6, 0);
 	car.mass = 500.0f;
 	car.suspensionStiffness = 55.88f;
@@ -34,14 +47,14 @@ bool ModulePlayer::Start()
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
-	float wheel_radius = 0.6f;
+	float wheel_radius = 0.5f;
 	float wheel_width = 0.5f;
 	float suspensionRestLength = 1.2f;
 	
 	// Don't change anything below this line ------------------
 
 	float half_width = car.chassis_size.x*0.5f;
-	float half_length = car.chassis_size.z*0.5f;
+	float half_length = total_length*0.5f;
 	
 	vec3 direction(0,-1,0);
 	vec3 axis(-1,0,0);
@@ -157,7 +170,7 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 
 	mat4x4 trans;
-	vec4 offset(0, -.8, 0, 0);
+	vec4 offset(0, -.7, 0, 0);
 	vehicle->GetTransform(trans.M);
 	offset = trans*offset;
 	vehicle->info.sensor->SetPos(trans.M[12]+offset.x, trans.M[13]+offset.y, trans.M[14]+offset.z);

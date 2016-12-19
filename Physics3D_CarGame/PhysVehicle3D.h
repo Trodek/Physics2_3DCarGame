@@ -26,6 +26,21 @@ struct VehicleInfo
 	
 	vec3 chassis_size;
 	vec3 chassis_offset;
+	vec3 handlebar_size;
+	vec3 handlebar_offset;
+	vec3 saddle_size;
+	vec3 saddle_offset;
+	vec3 handelbarsupport_size;
+	vec3 handelbarsupport_offset;
+	vec3 handelbarpost_size;
+	vec3 handelbarpost_offset;
+	vec3 mudguard_size;
+	vec3 mudguard_offset;
+	vec3 frontwheelsupport_size;
+	vec3 frontwheelsupport_offset;
+	vec3 downchassis_size;
+	vec3 downchassis_offset;
+
 	vec3 sensor_offset;
 	PhysBody3D* sensor;
 	float mass;
