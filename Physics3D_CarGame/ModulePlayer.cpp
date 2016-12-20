@@ -219,7 +219,7 @@ update_status ModulePlayer::Update(float dt)
 	if (!App->scene_intro->delay) { // Don't allow input when restarting level
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		{
-			acceleration = MAX_ACCELERATION;
+			acceleration = max_acceleration;
 			if (!timer_started) {
 				App->scene_intro->timer.Start();
 				timer_started = true;
@@ -260,6 +260,14 @@ update_status ModulePlayer::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			SetInitialPos();
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
+			max_acceleration = 500.0f;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+			max_acceleration = 600.0f;
 		}
 	}
 

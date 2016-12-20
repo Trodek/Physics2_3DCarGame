@@ -5,7 +5,6 @@
 
 struct PhysVehicle3D;
 
-#define MAX_ACCELERATION 500.0f
 #define TURN_DEGREES 15.0f * DEGTORAD
 #define BRAKE_POWER 1000.0f
 
@@ -37,4 +36,7 @@ public:
 	uint engine_accel_fx;
 	bool playing_normal = false;
 	bool playing_accel = false;
+
+private:
+	float max_acceleration = 500.0;
 };

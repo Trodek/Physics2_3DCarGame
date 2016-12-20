@@ -65,6 +65,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		ResetLevel();
 		delay = true; 
 		delay_timer.Start();
+		max_time -= 15000;
 	}
 
 	if (timer.Read() > max_time) {
@@ -83,7 +84,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	char title[80];
 	sprintf_s(title, "Velocity: %.1f Km/h, Score: %d/%d, Time: %d:%.2d, Fastest Time: %d:%.2d", App->player->vehicle->GetKmh(), painted_triangles, total_triangles,
-		timer.Read() / (1000 * 60), timer.Read() / 1000 % 60, fastest_time / (1000 * 60), fastest_time / 1000 % 60);
+		(max_time - timer.Read()) / (1000 * 60), (max_time - timer.Read()) / 1000 % 60, fastest_time / (1000 * 60), fastest_time / 1000 % 60);
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
