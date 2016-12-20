@@ -49,7 +49,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	if (delay_timer.Read() > 2000) { //delay execution to give time player to prepare for next round
+	if (delay_timer.Read() > 3000) { //delay execution to give time player to prepare for next round
 		delay = false;
 		App->audio->PlayMusic("Audio/Music.ogg"); // Restart audio for new round
 		delay_timer.Start();
