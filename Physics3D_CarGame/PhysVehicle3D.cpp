@@ -148,7 +148,7 @@ void PhysVehicle3D::Render()
 	handlebarright.transform.M[13] += handlebarright_offset.getY();
 	handlebarright.transform.M[14] += handlebarright_offset.getZ();
 
-	handlebarright.color.Set(.5,.874,1);
+	handlebarright.color = Black;
 
 	Cylinder handlebarleft(info.handlebarleft_radius, info.handlebarleft_height);
 	handlebarleft.SetRotation(10, vec3(0, 1, 0));
