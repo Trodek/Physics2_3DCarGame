@@ -20,6 +20,9 @@ public:
 	bool CleanUp();
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
+	void ResetPlayer();
+	void SetInitialPos();
+
 public:
 
 	PhysVehicle3D* vehicle;
@@ -28,4 +31,10 @@ public:
 	float brake;
 
 	Cube sensore_cube;
+	bool timer_started = false;
+
+	uint engine_normal_fx;
+	uint engine_accel_fx;
+	bool playing_normal = false;
+	bool playing_accel = false;
 };

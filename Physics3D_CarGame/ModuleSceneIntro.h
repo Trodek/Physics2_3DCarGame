@@ -22,6 +22,8 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
+	void ResetLevel();
+
 public:
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
@@ -41,6 +43,11 @@ public:
 
 	int total_triangles;
 	int painted_triangles = 0;
+	uint fastest_time = 390000;
+	uint max_time = 390000;
 
 	Timer timer;
+
+	Timer delay_timer;
+	bool delay = false;
 };

@@ -24,15 +24,24 @@ struct VehicleInfo
 {
 	~VehicleInfo();
 	
+	vec3 collision_size;
+	vec3 collision_offset;
+
+	//motorbike
 	vec3 chassis_size;
 	vec3 chassis_offset;
-	vec3 handlebar_size;
-	vec3 handlebar_offset;
+	float handlebarright_radius;
+	float handlebarright_height;
+	vec3 handlebarright_offset;
+	float handlebarleft_radius;
+	float handlebarleft_height;
+	vec3 handlebarleft_offset;
 	vec3 saddle_size;
 	vec3 saddle_offset;
-	vec3 handelbarsupport_size;
-	vec3 handelbarsupport_offset;
-	vec3 handelbarpost_size;
+	vec3 handlebarsupport_size;
+	vec3 handlebarsupport_offset;
+	float handelbarpost_radius;
+	float handelbarpost_height;
 	vec3 handelbarpost_offset;
 	vec3 mudguard_size;
 	vec3 mudguard_offset;
@@ -40,6 +49,29 @@ struct VehicleInfo
 	vec3 frontwheelsupport_offset;
 	vec3 downchassis_size;
 	vec3 downchassis_offset;
+	vec3 panel_size;
+	vec3 panel_offset;
+
+	//Italian guy
+	float head_radius;
+	vec3 head_offset;
+	vec3 body_size;
+	vec3 body_offset;
+	vec3 rightarm_size;
+	vec3 rightarm_offset;
+	vec3 leftarm_size;
+	vec3 leftarm_offset;
+	vec3 hip_size;
+	vec3 hip_offset;
+	vec3 leftlegup_size;
+	vec3 leftlegup_offset;
+	vec3 leftlegdown_size;
+	vec3 leftlegdown_offset;
+	vec3 rightlegup_size;
+	vec3 rightlegup_offset;
+	vec3 rightlegdown_size;
+	vec3 rightlegdown_offset;
+
 
 	vec3 sensor_offset;
 	PhysBody3D* sensor;

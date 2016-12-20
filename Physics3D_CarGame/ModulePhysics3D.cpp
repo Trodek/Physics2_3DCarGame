@@ -67,6 +67,8 @@ bool ModulePhysics3D::Start()
 		world->addRigidBody(body);
 	}
 
+	debug = false;
+
 	return true;
 }
 
@@ -280,12 +282,12 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	btCompoundShape* comShape = new btCompoundShape();
 	shapes.add(comShape);
 
-	btCollisionShape* colShape = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
+	btCollisionShape* colShape = new btBoxShape(btVector3(info.collision_size.x*0.5f, info.collision_size.y*0.5f, info.collision_size.z*0.5f));
 	shapes.add(colShape);
 
 	btTransform trans;
 	trans.setIdentity();
-	trans.setOrigin(btVector3(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z));
+	trans.setOrigin(btVector3(info.collision_offset.x, info.collision_offset.y, info.collision_offset.z));
 
 	comShape->addChildShape(trans, colShape);
 

@@ -22,19 +22,42 @@ bool ModulePlayer::Start()
 
 	float total_length = 5.0f;
 
-	// Car properties ----------------------------------------
+	car.collision_size.Set(1.5, 4, 5);
+	car.collision_offset.Set(0, 2.5, -.4);
+
+	// Motorbike properties ----------------------------------------
 	car.chassis_size.Set(1.5, 1.5, 1.5);
 	car.chassis_offset.Set(0, 1, -2);
+
 	car.saddle_size.Set(1.75, .5, 2);
 	car.saddle_offset.Set(0, 2, -1.85);
+
 	car.downchassis_size.Set(1.5, .1, 3);
 	car.downchassis_offset.Set(0, .3, -.3);
-	car.frontwheelsupport_size.Set(1.5, 1, .5);
+
+	car.frontwheelsupport_size.Set(1.5, .9, .55);
 	car.frontwheelsupport_offset.Set(0, 0.75, 1);
+
 	car.mudguard_size.Set(.6, .2, .8);
 	car.mudguard_offset.Set(0, 0.5, 1.8);
-	car.handelbarsupport_size.Set(1.5, .5, .6);
-	car.handelbarsupport_offset.Set(0, 1.1, 1.55);
+
+	car.handlebarsupport_size.Set(1.5, .5, 1);
+	car.handlebarsupport_offset.Set(0, 1.075, 1.35);
+
+	car.handelbarpost_radius = 0.2;
+	car.handelbarpost_height = 4;
+	car.handelbarpost_offset.Set(0, 1.8, 1.2);
+
+	car.panel_size.Set(1, .5, .4);
+	car.panel_offset.Set(0, 3.6, 0.7);
+
+	car.handlebarright_radius = 0.1;
+	car.handlebarright_height = .6;
+	car.handlebarright_offset.Set(-.35, 3.6, .3);
+
+	car.handlebarleft_radius = 0.1;
+	car.handlebarleft_height = .6;
+	car.handlebarleft_offset.Set(.35, 3.6, .3);
 
 	car.sensor_offset.Set(0, -.6, 0);
 	car.mass = 500.0f;
@@ -44,6 +67,34 @@ bool ModulePlayer::Start()
 	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 50.5;
 	car.maxSuspensionForce = 60000.0f;
+
+	//Italian guy
+	car.hip_size.Set(1.2, .5, .5);
+	car.hip_offset.Set(0, 2.5, -2);
+
+	car.body_size.Set(1.2, 2, .5);
+	car.body_offset.Set(0, 3.75, -2);
+
+	car.leftarm_size.Set(.5, .5, 2.5);
+	car.leftarm_offset.Set(.6, 4.1, -1);
+
+	car.rightarm_size.Set(.5, .5, 2.5);
+	car.rightarm_offset.Set(-.6, 4.1, -1);
+
+	car.leftlegup_size.Set(.5, .5, 1);
+	car.leftlegup_offset.Set(.4, 2.5, -1.3);
+
+	car.rightlegup_size.Set(.5, .5, 1);
+	car.rightlegup_offset.Set(-.4, 2.5, -1.3);
+
+	car.leftlegdown_size.Set(.5, 2.5, .5);
+	car.leftlegdown_offset.Set(.4, 1.5, -.55);
+
+	car.rightlegdown_size.Set(.5, 2.5, .5);
+	car.rightlegdown_offset.Set(-.4, 1.5, -.55);
+
+	car.head_radius = .6;
+	car.head_offset.Set(0, 5.3, -2);
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
@@ -117,10 +168,14 @@ bool ModulePlayer::Start()
 	car.sensor->SetAsSensor(true);
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 5, 0);
+	vehicle->SetPos(0, 3, 0);
 	vehicle->collision_listeners.add(this);
 	
-	
+	engine_normal_fx = App->audio->LoadFx("Audio/engine_normal.wav");
+	engine_accel_fx = App->audio->LoadFx("Audio/engine_accel.wav");
+
+	App->audio->PlayFx(engine_normal_fx, -1);
+	playing_normal = true;
 
 	return true;
 }
@@ -137,30 +192,75 @@ void ModulePlayer::OnCollision(PhysBody3D * body1, PhysBody3D * body2)
 {
 }
 
+void ModulePlayer::ResetPlayer()
+{
+	SetInitialPos();
+	timer_started = false;
+}
+
+void ModulePlayer::SetInitialPos()
+{
+	vehicle->GetBody()->setLinearVelocity(btVector3(0, 0, 0));
+	vehicle->GetBody()->setAngularVelocity(btVector3(0, 0, 0));
+
+	btTransform startTransform;
+	startTransform.setIdentity();
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	vehicle->GetBody()->setMotionState(myMotionState);
+
+	vehicle->SetPos(0, 3, 0);
+}
+
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-	{
-		acceleration = MAX_ACCELERATION;
-	}
+	if (!App->scene_intro->delay) { // Don't allow input when restarting level
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		{
+			acceleration = MAX_ACCELERATION;
+			if (!timer_started) {
+				App->scene_intro->timer.Start();
+				timer_started = true;
+			}
+			if (playing_normal) {
+				App->audio->StopFX();
+				App->audio->PlayFx(engine_accel_fx, -1);
+				playing_normal = false;
+				playing_accel = true;
+			}
+		}
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-	{
-		if(turn < TURN_DEGREES)
-			turn +=  TURN_DEGREES;
-	}
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
+		{
+			if (playing_accel) {
+				App->audio->StopFX();
+				App->audio->PlayFx(engine_normal_fx, -1);
+				playing_normal = true;
+				playing_accel = false;
+			}
+		}
 
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	{
-		if(turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
-	}
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	{
-		brake = BRAKE_POWER;
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		{
+			if (turn < TURN_DEGREES)
+				turn += TURN_DEGREES;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		{
+			if (turn > -TURN_DEGREES)
+				turn -= TURN_DEGREES;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		{
+			brake = BRAKE_POWER;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+			SetInitialPos();
+		}
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
