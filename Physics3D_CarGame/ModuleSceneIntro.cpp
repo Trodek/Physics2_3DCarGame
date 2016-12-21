@@ -51,7 +51,6 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	if (delay_timer.Read() > 3000) { //delay execution to give time player to prepare for next round
 		delay = false;
-		App->audio->PlayMusic("Audio/Music.ogg"); // Restart audio for new round
 		delay_timer.Start();
 		delay_timer.Stop();
 	}
@@ -83,7 +82,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	inner_icosphere->InnerDraw();
 
 	char title[80];
-	sprintf_s(title, "Velocity: %.1f Km/h, Score: %d/%d, Time: %d:%.2d, Fastest Time: %d:%.2d", App->player->vehicle->GetKmh(), painted_triangles, total_triangles,
+	if(App->player->easy_mode == false)
+		sprintf_s(title, "Normal Mode. Velocity: %.1f Km/h, Score: %d/%d, Time: %d:%.2d, Fastest Time: %d:%.2d", App->player->vehicle->GetKmh(), painted_triangles, total_triangles,
+		(max_time - timer.Read()) / (1000 * 60), (max_time - timer.Read()) / 1000 % 60, fastest_time / (1000 * 60), fastest_time / 1000 % 60);
+	else sprintf_s(title, "Easy Mode. Velocity: %.1f Km/h, Score: %d/%d, Time: %d:%.2d, Fastest Time: %d:%.2d", App->player->vehicle->GetKmh(), painted_triangles, total_triangles,
 		(max_time - timer.Read()) / (1000 * 60), (max_time - timer.Read()) / 1000 % 60, fastest_time / (1000 * 60), fastest_time / 1000 % 60);
 	App->window->SetTitle(title);
 

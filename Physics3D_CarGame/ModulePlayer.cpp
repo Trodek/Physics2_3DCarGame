@@ -264,10 +264,12 @@ update_status ModulePlayer::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
 			max_acceleration = 500.0f;
+			easy_mode = false;
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
-			max_acceleration = 600.0f;
+			max_acceleration = 700.0f;
+			easy_mode = true;
 		}
 	}
 

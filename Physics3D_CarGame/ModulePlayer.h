@@ -37,6 +37,8 @@ public:
 	bool playing_normal = false;
 	bool playing_accel = false;
 
+	bool easy_mode = false;
+
 private:
 	float max_acceleration = 500.0;
 };
